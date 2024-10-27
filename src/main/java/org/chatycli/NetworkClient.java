@@ -1,4 +1,4 @@
-package org.clichaty;
+package org.chatycli;
 
 import java.io.IOException;
 import java.net.Socket;
