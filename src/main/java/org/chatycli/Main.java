@@ -1,5 +1,6 @@
 package org.chatycli;
 
+import org.chatycli.helper.Storage;
 import picocli.CommandLine;
 import java.util.Arrays;
 import java.util.Scanner;
