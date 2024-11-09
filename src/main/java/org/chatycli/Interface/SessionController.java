@@ -1,4 +1,4 @@
-package org.chatycli.helper;
+package org.chatycli.Interface;
 
 import org.chatycli.Data.Session;
 
@@ -7,11 +7,9 @@ import java.util.Date;
 public class SessionController {
     public static Session session = null;
     public static boolean isLoggedIn() {
-        if(session!=null && Storage.isSessionValid()) {
-            session = Storage.getStoredSession();
-            if(session != null && session.getExpiryDate().before(new Date())) {
-                return true;
-            }
+        session = Storage.getStoredSession();
+        if(session != null && session.getExpiryDate().before(new Date())) {
+            return true;
         }
         return false;
     }

@@ -6,6 +6,8 @@ public class Session {
     private User user;
     private Date expiryDate;
 
+    public Session() {
+    }
     public Session(User user, Date expiryDate) {
         this.user = user;
         this.expiryDate = expiryDate;

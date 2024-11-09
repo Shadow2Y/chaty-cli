@@ -1,6 +1,7 @@
 package org.chatycli;
 
-import org.chatycli.helper.SessionController;
+import org.chatycli.Interface.SessionController;
+import org.chatycli.Interface.Storage;
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
@@ -42,6 +43,18 @@ public class CommandParser implements Runnable {
             System.out.println("No message from user...");
         } else {
             System.out.println("Message from user... :: " + arg);
+        }
+    }
+
+    @Option(names = {ChatyCliConstant.EXIT_FLAG_SHORT, ChatyCliConstant.EXIT_FLAG_LONG}, description = "User message")
+    private boolean exitArg;
+    private void exitFunc() throws Exception {
+        System.out.println("Updating state for user... :: " + SessionController.getUsername());
+        try {
+            Storage.saveData();
+        } catch (Exception e) {
+            System.out.println("Error updating state for user... :: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 
