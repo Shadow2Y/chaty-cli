@@ -2,7 +2,6 @@ package org.chatycli.Interface;
 
 import org.chatycli.Data.Session;
 import org.chatycli.Data.DataModel;
-import org.chatycli.Data.DataModelAdapter;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -53,26 +52,25 @@ public class Storage {
         File storageFile = new File(FILE_PATH);
         if (!storageFile.exists()) {
             try {
+                System.out.println("storage.dat does not exist :: Creating new file in :"+FILE_PATH);
                 storageFile.createNewFile();
-
-                // Write an empty JSON object to initialize the file content
-//                gson = new GsonBuilder().setPrettyPrinting().registerTypeAdapter(new DataModel(//), new DataModelAdapter()).create();
-                String modelJson = gson.toJson(new DataModel()); // or any default JSON structure for DataModel
+                dataModel = new DataModel();
+                String modelJson = gson.toJson(dataModel); // or any default JSON structure for DataModel
                 BufferedWriter writer = new BufferedWriter(new FileWriter(storageFile));
                 writer.write(encrypt(modelJson).toString());
                 writer.close();
-                System.out.println("storage.dat created with empty content.");
+//                System.out.println("storage.dat does not exist");
             } catch (IOException e) {
                 e.printStackTrace();
                 throw new RuntimeException("Failed to create storage.dat file", e);
             }
         } else {
             System.out.println("storage.dat already exists.");
+            byte[] encryptedData = Files.readAllBytes(storageFile.toPath());
+            String decryptedJson = decrypt(encryptedData);
+            System.out.println(":: Loaded Data from Storage :: "+decryptedJson);
+            dataModel = gson.fromJson(decryptedJson, DataModel.class);
         }
-        byte[] encryptedData = Files.readAllBytes(storageFile.toPath());
-        String decryptedJson = decrypt(encryptedData);
-        System.out.println(":: Loaded Data from Storage :: "+decryptedJson);
-        dataModel = gson.fromJson(decryptedJson, DataModel.class);
     }
 
     // Encrypt a JSON string using AES-GCM
@@ -109,6 +107,7 @@ public class Storage {
             return new String(decryptedData, StandardCharsets.UTF_8);
         } catch (Exception e) {
             e.printStackTrace();
+            System.out.println("ERROR :: Unable to decrypt data :: "+e.getMessage());
             File storageFile = new File(FILE_PATH);
             storageFile.delete();
 //            loadData();
@@ -118,7 +117,7 @@ public class Storage {
     }
 
     public static String getPassword(String username) {
-        return "";
+        return "shadowy";
     }
     private static SecretKey generateSecretKey() {
     try {

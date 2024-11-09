@@ -4,6 +4,7 @@ import java.util.Date;
 
 public class Session {
     private User user;
+    private String sessionId;
     private Date expiryDate;
 
     public Session() {
