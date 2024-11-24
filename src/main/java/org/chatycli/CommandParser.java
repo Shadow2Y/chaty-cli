@@ -5,7 +5,10 @@ import org.chatycli.Interface.Storage;
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
+
+import java.io.Console;
 import java.util.Scanner;
+import java.util.logging.Logger;
 
 @Command(name = ChatyCliConstant.APP_NAME, description = "A CLI app for network communication.")
 public class CommandParser implements Runnable {
@@ -16,13 +19,8 @@ public class CommandParser implements Runnable {
             System.out.println(":: Using account '"+SessionController.getUsername()+"' :: ");
             return;
         }
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("Username :: ");
-        String username = scanner.nextLine();
-        System.out.print("Password :: ");
-        String password = scanner.nextLine();
-        System.out.println(":: Logging into User session :: ");
-        SessionController.loginUser(username,password);
+        System.out.println(" :: Creating new user session :: ");
+        SessionController.loginUser();
     }
 
     public CommandLine executor;
